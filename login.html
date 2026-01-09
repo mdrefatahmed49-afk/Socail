@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Book - লগইন / রেজিস্ট্রেশন</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 min-h-screen flex items-center justify-center p-4 font-hind-siliguri">
+
+  <div class="w-full max-w-md">
+    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-2xl">
+      
+      <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-white">
+          <i class="fas fa-wallet text-yellow-300 mr-2"></i>Money Book
+        </h1>
+        <p class="text-white/80 mt-2">আপনার আর্থিক সঙ্গী</p>
+      </div>
+
+      <div class="flex bg-white/20 rounded-full p-1 mb-8">
+        <button id="loginTab" class="flex-1 py-3 rounded-full text-white font-medium bg-white/30 transition">লগইন</button>
+        <button id="signupTab" class="flex-1 py-3 rounded-full text-white/70 hover:text-white transition">রেজিস্টার</button>
+      </div>
+
+      <div id="loginForm" class="space-y-5">
+        <input id="loginEmail" type="email" placeholder="ইমেইল" class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/30 transition">
+        <input id="loginPassword" type="password" placeholder="পাসওয়ার্ড" class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/30 transition">
+        <button id="loginBtn" class="w-full py-4 bg-white text-indigo-700 font-bold rounded-full hover:bg-gray-100 transition transform hover:scale-105">লগইন করুন</button>
+      </div>
+
+      <div id="signupForm" class="hidden space-y-5">
+        <input id="signupName" type="text" placeholder="পুরো নাম" class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/30 transition">
+        <input id="signupEmail" type="email" placeholder="ইমেইল" class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/30 transition">
+        <input id="signupPassword" type="password" placeholder="পাসওয়ার্ড (কমপক্ষে ৬ অক্ষর)" class="w-full p-4 rounded-xl bg-white/20 border border-white/30 text-white placeholder-white/60 focus:outline-none focus:border-white focus:bg-white/30 transition">
+        <button id="signupBtn" class="w-full py-4 bg-white text-indigo-700 font-bold rounded-full hover:bg-gray-100 transition transform hover:scale-105">অ্যাকাউন্ট তৈরি করুন</button>
+      </div>
+
+      <p id="errorMsg" class="text-red-300 text-center mt-6 min-h-[2rem]"></p>
+    </div>
+  </div>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYHAXdBXixLpAtQZSiX2r9dAIvC2CF7Qs",
+      authDomain: "almanhal-f858b.firebaseapp.com",
+      databaseURL: "https://almanhal-f858b-default-rtdb.firebaseio.com",
+      projectId: "almanhal-f858b",
+      storageBucket: "almanhal-f858b.firebasestorage.app",
+      messagingSenderId: "1085892990859",
+      appId: "1:1085892990859:web:aa88e5551159dd7f21818e"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // Toggle between login & signup
+    document.getElementById('loginTab').onclick = () => {
+      document.getElementById('loginTab').classList.add('bg-white/30');
+      document.getElementById('signupTab').classList.remove('bg-white/30');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('signupForm').classList.add('hidden');
+    };
+
+    document.getElementById('signupTab').onclick = () => {
+      document.getElementById('signupTab').classList.add('bg-white/30');
+      document.getElementById('loginTab').classList.remove('bg-white/30');
+      document.getElementById('signupForm').classList.remove('hidden');
+      document.getElementById('loginForm').classList.add('hidden');
+    };
+
+    // Login button
+    document.getElementById('loginBtn').onclick = async () => {
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass = document.getElementById('loginPassword').value;
+      if (!email || !pass) return document.getElementById('errorMsg').textContent = "সব তথ্য দিন";
+      
+      try {
+        await auth.signInWithEmailAndPassword(email, pass);
+        window.location.href = "index.html";
+      } catch (e) {
+        document.getElementById('errorMsg').textContent = e.message;
+      }
+    };
+
+    // Signup button
+    document.getElementById('signupBtn').onclick = async () => {
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const pass = document.getElementById('signupPassword').value;
+      if (!name || !email || !pass) return document.getElementById('errorMsg').textContent = "সব তথ্য দিন";
+      if (pass.length < 6) return document.getElementById('errorMsg').textContent = "পাসওয়ার্ড কমপক্ষে ৬ অক্ষর হতে হবে";
+      
+      try {
+        await auth.createUserWithEmailAndPassword(email, pass);
+        window.location.href = "index.html";
+      } catch (e) {
+        document.getElementById('errorMsg').textContent = e.message;
+      }
+    };
+  </script>
+</body>
+</html>

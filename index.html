@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Money Book - হোম</title>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen pb-24 font-hind-siliguri">
+
+  <header class="bg-indigo-600 text-white p-5 text-center shadow-md">
+    <h1 class="text-2xl font-bold">Money Book</h1>
+    <p class="text-sm opacity-90 mt-1">স্বাগতম!</p>
+  </header>
+
+  <main class="p-6 max-w-md mx-auto">
+    <div class="bg-white rounded-2xl shadow p-6 mb-6">
+      <h2 class="text-xl font-semibold mb-4">আজকের সারাংশ</h2>
+      <p class="text-gray-600">এখানে আপনার সাম্প্রতিক আয়-ব্যয় ও নোটিফিকেশন দেখা যাবে।</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div class="bg-green-50 p-6 rounded-2xl text-center shadow-sm">
+        <p class="text-sm text-gray-600">আজকের আয়</p>
+        <p class="text-3xl font-bold text-green-700">৳০</p>
+      </div>
+      <div class="bg-red-50 p-6 rounded-2xl text-center shadow-sm">
+        <p class="text-sm text-gray-600">আজকের ব্যয়</p>
+        <p class="text-3xl font-bold text-red-700">৳০</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom Navigation -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t z-50 shadow-lg">
+    <div class="max-w-md mx-auto flex justify-around items-center py-3">
+      <a href="index.html" class="flex flex-col items-center text-indigo-600">
+        <i class="fas fa-home text-2xl"></i>
+        <span class="text-xs mt-1">হোম</span>
+      </a>
+      <a href="dashboard.html" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition">
+        <i class="fas fa-tachometer-alt text-2xl"></i>
+        <span class="text-xs mt-1">ড্যাশবোর্ড</span>
+      </a>
+      <a href="video.html" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition">
+        <i class="fas fa-video text-2xl"></i>
+        <span class="text-xs mt-1">ভিডিও</span>
+      </a>
+      <a href="message.html" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition">
+        <i class="fas fa-comment-dots text-2xl"></i>
+        <span class="text-xs mt-1">মেসেজ</span>
+      </a>
+      <a href="profile.html" class="flex flex-col items-center text-gray-600 hover:text-indigo-600 transition">
+        <i class="fas fa-user text-2xl"></i>
+        <span class="text-xs mt-1">প্রোফাইল</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Firebase Auth Check -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCYHAXdBXixLpAtQZSiX2r9dAIvC2CF7Qs",
+      authDomain: "almanhal-f858b.firebaseapp.com",
+      databaseURL: "https://almanhal-f858b-default-rtdb.firebaseio.com",
+      projectId: "almanhal-f858b",
+      storageBucket: "almanhal-f858b.firebasestorage.app",
+      messagingSenderId: "1085892990859",
+      appId: "1:1085892990859:web:aa88e5551159dd7f21818e"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (!user) window.location.href = "login.html";
+    });
+  </script>
+</body>
+</html>
